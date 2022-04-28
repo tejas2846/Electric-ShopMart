@@ -14,11 +14,6 @@
 
 <body>
     @include('layouts.navbar')
-    @if (session()->has('message'))
-        <div class="alert alert-success">
-            {{ session()->get('message') }}
-        </div>
-    @endif
     <div class="container">
         <form action="/add-item" method="post" class="" enctype="multipart/form-data">
             @csrf
@@ -61,7 +56,7 @@
                 <br>
                 <div class="form-group col-md-6">
                     <label for="formFile" class="form-label">IMAGE OF ITEM</label>
-                    <input class="form-control" type="file" name="image" id="formFile">
+                    <input class="form-control" type="file" name="image[]" multiple  id="formFile">
                 </div>
                 <br>
                 <button type="submit" class="btn btn-primary">ADD ITEM</button>
@@ -71,39 +66,3 @@
 </body>
 
 </html>
-
-{{-- <form action="/add-item" method="post" enctype="multipart/form-data">
-  @csrf
-    <div class="container">
-    <h1>ADD ITEM</h1>
-    <hr>
-    
-    <label for="item_name"><b>Item Name</b></label>
-    <input type="text" placeholder="Enter Item Name" name="item_name" id="name" required>
-    
-    <label for="item_code"><b>Item Code</b></label>
-    <input type="text"  placeholder="Enter Item Code" name="item_code" id="name" required>
-
-    <label for="item_price"><b>Price</b></label>
-    <input type="number" step="0.01" placeholder="Enter Price" name="item_price" id="name" required>
-
-    <label for="quantity"><b>Quantity</b></label>
-    <input type="number" placeholder="Enter Quantity" name="item_quantity" id="name" required>
-
-    <label for="category"><b>Category</b></label>
-    
-     <select name="item_category" id="name">
-       <option value="Regrigerator">Refrigerator</option>
-       <option value="Ac">AC</option>
-       <option value="Mobile">Mobile</option>
-       <option value="Washing Machine">Washing Machine</option>
-     </select>
-    
-     <label for="File Upload"><b>Image Of Item</b></label>
-    <input type="file" placeholder="Select File for Upload" name="image" id="image" required>
-   
-    <hr>
-
-    <button type="submit" class="registerbtn">Click To Add Item</button>
-  </div>
-</form> --}}

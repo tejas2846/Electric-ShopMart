@@ -12,10 +12,10 @@
               </li>
             @cannot('isAdmin')
               <li class="nav-item">
-                <a class="nav-link" href="/my-order">My order</a>
+                <a class="nav-link active" href="/my-order">My order</a>
               </li>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Category
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -32,37 +32,58 @@
                  </ul>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/update-user"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                <a class="nav-link active" href="/update-user"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
                   <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
                 </svg>Edit User</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="/show-cart">Show Cart</a>
               </li>
               
              @endcannot 
               @can('isAdmin')
               <li class="nav-item">
-                <a class="nav-link" href="/add-item">Add item</a>
+                <a class="nav-link active" href="/add-item">Add item</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/user-list">User List</a>
+                <a class="nav-link active" href="/user-list">User List</a>
               </li>
-              <li class="nav-item">
+              {{-- <li class="nav-item">
                 <a class="nav-link" href="/orders">Total Order</a>
-              </li>
+              </li> --}}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Order
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="/pending-order">Pending Order</a></li>
+                  <li><a class="dropdown-item" href="/deliver-order">Delivered Order</a></li>
+                  <li><a class="dropdown-item" href="/orders">Total Order</a></li>
+                
+                </ul> 
+                </li>
               @endcan
               
               <li class="nav-item">
-                    <a href="{{ route('logout') }}" class="nav-link"
+                    <a href="{{ route('logout') }}" class="nav-link active"
                        onclick="event.preventDefault();
                                      document.getElementById('logout-form').submit();">
                         {{ __('Logout') }}
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
-                   </a></li>
+                   </a>
+            </li>
                 </ul>
-            <form class="d-flex" action="/find-item" method="post">
+              </li>
+              @cannot('isAdmin')
+              <li class="nav-item">
+                <a class="nav-link active" href="/show-cart">Cart{{$cart}}</a>
+              </li>
+              @endcannot
+                <form class="d-flex"  method="post" action="{{route('finditem')}}">
               @csrf
-                <input class="form-control me-2" name="name" type="search" placeholder="Search" aria-label="Search">
+                <input class="form-control me-2" name="name" type="text" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
           </div>

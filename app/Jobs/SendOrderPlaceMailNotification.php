@@ -40,7 +40,7 @@ class SendOrderPlaceMailNotification implements ShouldQueue
         $var=array('name'=>'Electric Mart','body'=>$this->data);
         Mail::send('orderPlaceMail',$var,function($message) use($to_name,$to_mail){
         $message->to($to_mail)
-        ->subject('Success !! You are Register');
+        ->subject('Thak you for Placing order!!Bill Is Here');
         });
     }
 }

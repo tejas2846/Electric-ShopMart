@@ -4,17 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
-class itemController extends Controller
+class ItemController extends Controller
 {
     public function additem(Request $request)
     {
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
+        //  dd('added');
         $imageName = time() . '.' . $request->file('image')->extension();
-       // try {
+        try {
             $data = new Item;
             $data->item_name = $request->item_name;
             $data->item_code = $request->item_code;
@@ -31,10 +32,11 @@ class itemController extends Controller
 
                 return back()->with('message', "Item Not Added");
             }
-       // } catch (\Exception $e) {
+        } catch (\Exception $e) {
             return back()->with('message', "Item Not Added");
-      //  }
+        }
     }
+
     public function deleteitem($id)
     {
         try {
@@ -64,11 +66,14 @@ class itemController extends Controller
         try {
             $item = item::where('item_name', 'like', '%' . $request->name . '%')->get();
             //dd(count($item));
+
             if (empty($item)) {
+                dd($item);
 
                 return back()->with('message', "ITEM NOT FOUND");
             }
             if (count($item)) {
+                // return Redirect::route('dashboard-item', array('items' => $item));
                 return view('dashboard_item', ['items' => $item]); //->with('items', $item);
             } else {
                 return back()->with('message', "ITEM NOT FOUND");
@@ -82,9 +87,9 @@ class itemController extends Controller
     {
         try {
             $data = Item::find($id);
-          //  dd($data);
+            //  dd($data);
             if ($data) {
-                return view('update_item',['item'=>$data]);
+                return view('update_item', ['item' => $data]);
             } else {
 
                 return back()->with('message', "Item not Selected");
@@ -92,22 +97,22 @@ class itemController extends Controller
         } catch (\Exception $e) {
             return back()->with('message', "Item Not Seleted");
         }
-     
+
     }
     public function saveupdateItem(Request $request)
     {
         try {
             $data = Item::find($request->id);
-          //  dd($data);
+            //  dd($data);
             if ($data) {
-            $data->item_name = $request->item_name;
-            $data->item_code = $request->item_code;
-            $data->price = $request->item_price;
-            $data->category = $request->item_category;
-            $data->available_piece = $request->item_quantity;
-            $data->save();
-            $data=Item::all();
-            return redirect('/dashboard-item');
+                $data->item_name = $request->item_name;
+                $data->item_code = $request->item_code;
+                $data->price = $request->item_price;
+                $data->category = $request->item_category;
+                $data->available_piece = $request->item_quantity;
+                $data->save();
+                $data = Item::all();
+                return redirect('/dashboard-item');
             } else {
 
                 return back()->with('message', "Item not Selected");
@@ -115,16 +120,15 @@ class itemController extends Controller
         } catch (\Exception $e) {
             return back()->with('message', "Item Not Seleted");
         }
-     
+
     }
-    public function cartitem($id)
+    public function orderitem($id)
     {
         try {
             $data = Item::find($id);
-            
-            
+
             if ($data) {
-                return view('cart_item',['item'=>$data]);
+                return view('cart_item', ['item' => $data]);
             } else {
 
                 return back()->with('message', "Item Deleted");
@@ -139,12 +143,11 @@ class itemController extends Controller
     public function categorywiseitem($name)
     {
         try {
-            $data = Item::where('category',$name)->get();
-            
-            
+            $data = Item::where('category', $name)->get();
+
             if ($data) {
-               //return redirect('/category');
-                return view('dashboard_item',['items'=>$data]);
+                //return redirect('/category');
+                return view('dashboard_item', ['items' => $data]);
             } else {
 
                 return back()->with('message', "Category Not Found");
@@ -156,5 +159,5 @@ class itemController extends Controller
         return redirect("/dashboard-item");
 
     }
-    
+
 }

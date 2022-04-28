@@ -45,7 +45,6 @@
     <td><a href={{"delete-item/".$item['id']}} class="text-decoration-none">Delete<i class="fa fa-trash-o" style="font-size:25px;"></i>  </a> 
     @endcan
     </tr>
-
 @endforeach 
   </tbody>
 </table>

@@ -23,7 +23,7 @@
         <th>Photo</th>
         <th>Order At</th>
         <th>Total Price</th>
-       
+       <th>Recieved</th>
       </tr>
     </thead>
   <tbody > 
@@ -39,7 +39,11 @@
     <td><img src="{{asset('storage/images/'.$item['image_url'])}}" alt="Not available" width="50%" height="100px" /></td>
     <td>{{$item['created_at']}}</td> 
     <td>{{$item['Total_Price']}}</td> 
-      
+    @if($item['received']==1)
+    <td class="text-success">Received</td> 
+    @else
+    <td><button class="btn btn-primary"><a href="{{'/receive-order/'.$item['id']}}" class="text-decoration-none text-white">Received</a></button></td> 
+    @endif
   </tr>
 @endforeach 
   </tbody>

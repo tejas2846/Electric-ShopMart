@@ -89,7 +89,7 @@
                 <div class="card-header">{{ __('UPDATE USER') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="/save-update-item">
+                    <form method="POST" action="/save-update-user">
                         @csrf
 
                         <div class="row mb-3">

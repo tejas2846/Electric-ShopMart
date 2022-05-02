@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\OrderPlaceNotification;
-use App\Models\Order;
+use App\Models\Item;
 use App\Models\User;
+use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Events\OrderPlaceNotification;
 
 class OrderController extends Controller
 {
@@ -28,9 +29,22 @@ class OrderController extends Controller
     }
     public function placeorder(Request $request)
     {
-
         try {
             $data = new Order;
+            $minus=Item::where('item_code',$request->item_code)->get();
+        //    var_dump($minus[0]->available_piece);
+            // dd($minus[0]->availbale_piece);
+            $req=((int)($request->item_quantity));
+            if($minus[0]->available_piece>=$request->item_quantity){
+            dd('if');
+            }
+            else{
+                dd('else');
+            }
+            if((int)($minus[0]->availbale_piece)>$request->item_quantity){
+            $minus[0]->available_piece=$minus[0]->available_piece-$request->item_quantity;
+            $minus[0]->save();
+            $minus=Item::where('item_code',$request->item_code)->get();
             $data->item_name = $request->item_name;
             $data->item_code = $request->item_code;
             $data->price = $request->item_price;
@@ -43,16 +57,19 @@ class OrderController extends Controller
             $data->save();
             if ($data) {
                 event(new OrderPlaceNotification(auth()->user(), $data));
-
                 return redirect('/my-order');
-            } else {
-                dd("Hi ");
-                return back()->with('message', "Item Deleted");
+            } 
+            else {
+                return back()->with('message', "Order Not Placed");
             }
+        }
+        else{
+            return redirect('/dashboard-item')->with('message','Not Available');
+        }
         } catch (\Exception $e) {
             return back()->with('message', "Item Not Deleted");
         }
-
+        
     }
     public function orderlist()
     {

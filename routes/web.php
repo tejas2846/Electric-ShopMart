@@ -23,23 +23,26 @@ use Illuminate\Support\Facades\Route;
     return view('first_home_page');
 });
 Auth::routes();
-//Route for User
-Route::group(['middleware' => 'auth'], function () {
+  //DASHBOARD DATA SHOW ROUTE
+  Route::get('/dashboard-item', [DashboardController::class, 'show'])->name('dashboard-item');
     
+//Route for User
+Route::group(['middleware' =>['auth','can:user']], function () {
+//    //DASHBOARD DATA SHOW ROUTE
+//    Route::get('/dashboard-item', [DashboardController::class, 'show'])->name('dashboard-item');
+
     Route::get('/contact', function () {
         return view('dashboard_item');
     });
     Route::get('/category', function () {
         return view('dashboard_item');
     });
-    //DASHBOARD DATA SHOW ROUTE
-    Route::get('/dashboard-item', [DashboardController::class, 'show'])->name('dashboard-item');
-    //UPDATE USER ROUTE
+   //UPDATE USER ROUTE
     Route::get('/update-user', [UserController::class, 'updateuser']);
     //SAVE UPDATE USER
-    Route::post('/save-update-item', [UserController::class, 'saveupdateuser'])->name('saveupdateuser');
+    Route::post('/save-update-user', [UserController::class, 'saveupdateuser'])->name('saveupdateuser');
     //ITEM FIND
-    Route::post('/find-item', [ItemController::class, 'finditem'])->name('finditem');
+    Route::get('/find-item', [ItemController::class, 'finditem'])->name('finditem');
     // ADD TO CART
     Route::get('/order-item/{id}', [ItemController::class, 'orderitem']);
     // MY ORDER
@@ -59,6 +62,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 //Admin route
 route::group(['middleware' => 'auth', 'middleware' => 'can:isAdmin'], function () {
+  
     //Add ITEM ROUTES
     Route::get('/add-item', function () {
         return view('add_item');
@@ -72,16 +76,15 @@ route::group(['middleware' => 'auth', 'middleware' => 'can:isAdmin'], function (
     Route::post('/save-update-item', [ItemController::class, 'saveupdateItem']);
     Route::get('/user-list', [UserController::class, 'userlist']);
     Route::get('/orders', [OrderController::class, 'orderlist']);
-    //UPDATE USER ROUTE
-    Route::get('/update-user/{id}', [UserController::class, 'updateuser']);
-    //SAVE UPDATE USER
-    Route::post('/save-update-item', [UserController::class, 'saveupdateuser']);
     //DELETE USER
     Route::get('/delete-user/{id}', [UserController::class, 'deleteuser']);
     //DELIVER ORDER
     Route::get('/deliver-order', [OrderController::class, 'deliverorder']);
     //PENDING ORDER
     Route::get('/pending-order', [OrderController::class, 'pendingorder']);
+    //RECEIVED ORDER
+    Route::get('/receive-order/{name}', [OrderController::class, 'receivedrorder']);
+   
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

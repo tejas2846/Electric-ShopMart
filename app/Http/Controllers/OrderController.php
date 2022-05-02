@@ -32,42 +32,35 @@ class OrderController extends Controller
         try {
             $data = new Order;
             $minus=Item::where('item_code',$request->item_code)->get();
-        //    var_dump($minus[0]->available_piece);
-            // dd($minus[0]->availbale_piece);
-            $req=((int)($request->item_quantity));
             if($minus[0]->available_piece>=$request->item_quantity){
-            dd('if');
+                $minus[0]->available_piece=$minus[0]->available_piece-$request->item_quantity;
+                $minus[0]->save();
+                $minus=Item::where('item_code',$request->item_code)->get();
+                $data->item_name = $request->item_name;
+                $data->item_code = $request->item_code;
+                $data->price = $request->item_price;
+                $data->image_url = $request->image;
+                $data->category = $request->item_category;
+                $data->quantity = $request->item_quantity;
+                $data->Total_Price = (int) $request->item_price * (int) $request->item_quantity;
+                $data->user_id = auth()->user()->id;
+                $data->address = $request->address;
+                $data->save();
+                if ($data) {
+                    event(new OrderPlaceNotification(auth()->user(), $data));
+                    return redirect('/my-order');
+                } 
+                else {
+                    return redirect('/dashboard-item')->with('message', "Not Available");
+                }
+            
             }
             else{
-                dd('else');
+                return redirect('/dashboard-item')->with('message', "Not Available");
             }
-            if((int)($minus[0]->availbale_piece)>$request->item_quantity){
-            $minus[0]->available_piece=$minus[0]->available_piece-$request->item_quantity;
-            $minus[0]->save();
-            $minus=Item::where('item_code',$request->item_code)->get();
-            $data->item_name = $request->item_name;
-            $data->item_code = $request->item_code;
-            $data->price = $request->item_price;
-            $data->image_url = $request->image;
-            $data->category = $request->item_category;
-            $data->quantity = $request->item_quantity;
-            $data->Total_Price = (int) $request->item_price * (int) $request->item_quantity;
-            $data->user_id = auth()->user()->id;
-            $data->address = $request->address;
-            $data->save();
-            if ($data) {
-                event(new OrderPlaceNotification(auth()->user(), $data));
-                return redirect('/my-order');
-            } 
-            else {
-                return back()->with('message', "Order Not Placed");
-            }
-        }
-        else{
-            return redirect('/dashboard-item')->with('message','Not Available');
-        }
+          
         } catch (\Exception $e) {
-            return back()->with('message', "Item Not Deleted");
+            return redirect()->with('message', "Not Available");
         }
         
     }

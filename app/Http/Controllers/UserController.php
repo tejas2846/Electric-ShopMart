@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -19,7 +20,7 @@ class UserController extends Controller
 //dd($request->all());
 try{
 $user=User::find(auth()->user()->id);
-    $data=$user->update(['name'=>$request->name,'email'=>$request->email,'password'=>$request->password]);
+    $data=$user->update(['name'=>$request->name,'email'=>$request->email,'password'=>Hash::make($request->password)]);
     if($data){
       // return back()->with('message','User Success  Updated');
     //

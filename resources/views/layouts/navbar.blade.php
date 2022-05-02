@@ -22,9 +22,9 @@
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" href="/category/Refrigerator">Refrigerator</a></li>
                   <li><a class="dropdown-item" href="/category/Mobile">Mobile</a></li>
-                  <li><a class="dropdown-item" href="/category/Washing_Machine">Washing_Machine</a></li>
-                  <li><a class="dropdown-item" href="/category/Air_Conditioner">Air_Conditioner</a></li>
-                  <li><a class="dropdown-item" href="/category/Music_System">Music_System</a></li>
+                  <li><a class="dropdown-item" href="/category/Washing_Machine">Washing Machine</a></li>
+                  <li><a class="dropdown-item" href="/category/Air_Conditioner">Air Conditioner</a></li>
+                  <li><a class="dropdown-item" href="/category/Music_System">Music System</a></li>
                   <li><a class="dropdown-item" href="/category/Microwave">Microwave</a></li>
                   <li><a class="dropdown-item" href="/category/Television">Television</a></li>
                   <li><a class="dropdown-item" href="/category/Cooler">Cooler</a></li>

@@ -38,7 +38,7 @@ class SendOrderPlaceMailNotification implements ShouldQueue
         $to_mail=$this->user->email;
         $to_name=$this->user->name;
         $var=array('name'=>'Electric Mart','body'=>$this->data);
-        Mail::send('orderPlaceMail',$var,function($message) use($to_name,$to_mail){
+        Mail::send('mail.orderPlaceMail',$var,function($message) use($to_name,$to_mail){
         $message->to($to_mail)
         ->subject('Thak you for Placing order!!Bill Is Here');
         });

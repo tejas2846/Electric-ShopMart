@@ -18,7 +18,7 @@ class OrderController extends Controller
 
             $data = Order::where('user_id', auth()->user()->id)->get();
             if ($data) {
-                return view('my_order', ['orders' => $data]);
+                return view('order.my_order', ['orders' => $data]);
             } else {
                 return back()->with('message', "You Have Not Placed Any Order");
             }
@@ -80,7 +80,7 @@ class OrderController extends Controller
             //$data=$data->users();
             //  dd($data);
             if ($data) {
-                return view('order_list', ['orders' => $data]);
+                return view('order.order_list', ['orders' => $data]);
             } else {
                 dd('else');
                 return back()->with('message', "Not any order Yet");
@@ -100,7 +100,7 @@ class OrderController extends Controller
             //$data=$data->users();
             //  dd($data);
             if ($data) {
-                return view('pending_order', ['orders' => $data]);
+                return view('order.pending_order', ['orders' => $data]);
             } else {
                 // dd('else');
                 return back()->with('message', "Not any order Yet");
@@ -120,7 +120,7 @@ class OrderController extends Controller
             //$data=$data->users();
             //  dd($data);
             if ($data) {
-                return view('deliver_order', ['orders' => $data]);
+                return view('order.deliver_order', ['orders' => $data]);
             } else {
                 // dd('else');
                 return back()->with('message', "Not any order Yet");

@@ -35,7 +35,7 @@ class SendRegisterMailNotification implements ShouldQueue
        $to_mail=$this->user->email;
        $to_name=$this->user->name;
        $data=array('name'=>'Electric Mart','body'=>$this->user);
-       Mail::send('mail',$data,function($message) use($to_name,$to_mail){
+       Mail::send('mail.mail',$data,function($message) use($to_name,$to_mail){
        $message->to($to_mail)
        ->subject('Success !! You are Register');
        });

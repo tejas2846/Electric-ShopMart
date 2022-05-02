@@ -13,7 +13,6 @@ class ItemController extends Controller
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        //  dd('added');
         $imageName = time() . '.' . $request->file('image')->extension();
         try {
             $data = new Item;
@@ -45,10 +44,10 @@ class ItemController extends Controller
             $delete = $data->delete();
 
             if ($delete) {
-                return back()->with('message', 'IT WORKS!');
+                return back()->with('message', 'IT DELETED!');
             } else {
 
-                return back()->with('message', "Item Deleted");
+                return back()->with('message', "Item Not Deleted");
             }
         } catch (\Exception $e) {
             return back()->with('message', "Item Not Deleted");
@@ -65,8 +64,6 @@ class ItemController extends Controller
         ]);
         try {
             $item = item::where('item_name', 'like', '%' . $request->name . '%')->get();
-            //dd(count($item));
-
             if (empty($item)) {
                 dd($item);
 
@@ -87,9 +84,8 @@ class ItemController extends Controller
     {
         try {
             $data = Item::find($id);
-            //  dd($data);
             if ($data) {
-                return view('update_item', ['item' => $data]);
+                return view('item.update_item', ['item' => $data]);
             } else {
 
                 return back()->with('message', "Item not Selected");
@@ -128,7 +124,7 @@ class ItemController extends Controller
             $data = Item::find($id);
 
             if ($data) {
-                return view('cart_item', ['item' => $data]);
+                return view('cart.cart_item', ['item' => $data]);
             } else {
 
                 return back()->with('message', "Item Deleted");

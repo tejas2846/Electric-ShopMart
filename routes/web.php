@@ -65,7 +65,7 @@ route::group(['middleware' => 'auth', 'middleware' => 'can:isAdmin'], function (
   
     //Add ITEM ROUTES
     Route::get('/add-item', function () {
-        return view('add_item');
+        return view('item.add_item');
     });
     Route::post('/add-item', [ItemController::class, 'additem']);
     //DELETE ITEM ROUTE

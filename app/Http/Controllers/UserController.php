@@ -11,10 +11,10 @@ class UserController extends Controller
     public function userlist(){
   //      dd('hello');
     $user =User::get();
-    return view('user_list',['users'=>$user]); 
+    return view('user.user_list',['users'=>$user]); 
    }
    public function updateuser(){
-     return view('update_user',['user'=>auth()->user()]);
+     return view('user.update_user',['user'=>auth()->user()]);
    }
    public function saveupdateuser(Request $request){
 //dd($request->all());
